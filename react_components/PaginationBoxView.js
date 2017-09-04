@@ -13,9 +13,13 @@ export default class PaginationBoxView extends Component {
   static propTypes = {
     pageCount             : PropTypes.number.isRequired,
     pageRangeDisplayed    : PropTypes.number.isRequired,
+    pageAriaLabel         : PropTypes.func.isRequired,
+    currentPageAriaLabel  : PropTypes.func.isRequired,
     marginPagesDisplayed  : PropTypes.number.isRequired,
     previousLabel         : PropTypes.node,
+    previousAriaLabel     : PropTypes.string,
     nextLabel             : PropTypes.node,
+    nextAriaLabel         : PropTypes.string,
     breakLabel            : PropTypes.node,
     hrefBuilder           : PropTypes.func,
     onPageChange          : PropTypes.func,
@@ -38,10 +42,14 @@ export default class PaginationBoxView extends Component {
     pageCount             : 10,
     pageRangeDisplayed    : 2,
     marginPagesDisplayed  : 3,
+    pageAriaLabel         : (pageNumber, extraAriaContext) => 'Page ' + pageNumber + (extraAriaContext ? ' ' + extraAriaContext : ''),
+    currentPageAriaLabel  : (pageNumber) => 'Page ' + pageNumber + ' is your current page',
     activeClassName       : "selected",
     previousClassName     : "previous",
     nextClassName         : "next",
+    previousAriaLabel     : "Previous page",
     previousLabel         : "Previous",
+    nextAriaLabel         : "Next page",
     nextLabel             : "Next",
     breakLabel            : "...",
     disabledClassName     : "disabled",
@@ -120,6 +128,8 @@ export default class PaginationBoxView extends Component {
       pageClassName={this.props.pageClassName}
       pageLinkClassName={this.props.pageLinkClassName}
       activeClassName={this.props.activeClassName}
+      pageAriaLabel={this.props.pageAriaLabel}
+      currentPageAriaLabel={this.props.currentPageAriaLabel}
       extraAriaContext={this.props.extraAriaContext}
       href={this.hrefBuilder(index)}
       page={index + 1} />
@@ -208,7 +218,9 @@ export default class PaginationBoxView extends Component {
              className={this.props.previousLinkClassName}
              href={this.hrefBuilder(this.state.selected - 1)}
              tabIndex="0"
-             onKeyPress={this.handlePreviousPage}>
+             onKeyPress={this.handlePreviousPage}
+             aria-label={this.props.previousAriaLabel}
+          >
             {this.props.previousLabel}
           </a>
         </li>
@@ -220,7 +232,9 @@ export default class PaginationBoxView extends Component {
              className={this.props.nextLinkClassName}
              href={this.hrefBuilder(this.state.selected + 1)}
              tabIndex="0"
-             onKeyPress={this.handleNextPage}>
+             onKeyPress={this.handleNextPage}
+             aria-label={this.props.nextAriaLabel}
+          >
             {this.props.nextLabel}
           </a>
         </li>
