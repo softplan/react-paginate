@@ -105,6 +105,58 @@ describe('PaginationBoxView', () => {
     expect(breakItem.length).toBe(1);
   });
 
+  it('should render default aria labels if they are not specified', function() {
+    const linkedPagination = ReactTestUtils.renderIntoDocument(
+      <PaginationBoxView pageCount={3} />
+    );
+
+    expect(ReactDOM.findDOMNode(linkedPagination).querySelector('li:last-child a')
+      .getAttribute('aria-label')).toBe('Next page');
+    expect(ReactDOM.findDOMNode(linkedPagination).querySelector('li:first-child a')
+      .getAttribute('aria-label')).toBe('Previous page');
+    expect(ReactDOM.findDOMNode(linkedPagination).querySelector('.selected a')
+      .getAttribute('aria-label')).toBe('Page 1 is your current page');
+    expect(ReactDOM.findDOMNode(linkedPagination).querySelector('li:nth-child(3) a')
+      .getAttribute('aria-label')).toBe('Page 2');
+    expect(ReactDOM.findDOMNode(linkedPagination).querySelector('li:nth-child(4) a')
+      .getAttribute('aria-label')).toBe('Page 3');
+  });
+
+  it('should render custom aria labels if they are defined', function() {
+    const linkedPagination = ReactTestUtils.renderIntoDocument(
+      <PaginationBoxView pageCount={3}
+                         pageAriaLabel={(pageNumber, extraAriaContext) => `It's page ${pageNumber}`}
+                         nextAriaLabel={'Go to the next page'}
+                         previousAriaLabel={'Go to the previous page'}
+                         currentPageAriaLabel={(pageNumber) => `The current page is page ${pageNumber}`}
+      />
+    );
+
+    expect(ReactDOM.findDOMNode(linkedPagination).querySelector('li:last-child a')
+      .getAttribute('aria-label')).toBe('Go to the next page');
+    expect(ReactDOM.findDOMNode(linkedPagination).querySelector('li:first-child a')
+      .getAttribute('aria-label')).toBe('Go to the previous page');
+    expect(ReactDOM.findDOMNode(linkedPagination).querySelector('.selected a')
+      .getAttribute('aria-label')).toBe('The current page is page 1');
+    expect(ReactDOM.findDOMNode(linkedPagination).querySelector('li:nth-child(3) a')
+      .getAttribute('aria-label')).toBe("It's page 2");
+    expect(ReactDOM.findDOMNode(linkedPagination).querySelector('li:nth-child(4) a')
+      .getAttribute('aria-label')).toBe("It's page 3");
+  });
+
+  it('should render extraAriaContext appended to pages default aria labels', function() {
+    const linkedPagination = ReactTestUtils.renderIntoDocument(
+      <PaginationBoxView pageCount={3}
+                         extraAriaContext={'extra context'}
+      />
+    );
+
+    expect(ReactDOM.findDOMNode(linkedPagination).querySelector('li:nth-child(3) a')
+      .getAttribute('aria-label')).toBe("Page 2 extra context");
+    expect(ReactDOM.findDOMNode(linkedPagination).querySelector('li:nth-child(4) a')
+      .getAttribute('aria-label')).toBe("Page 3 extra context");
+  });
+
   describe('prop disableInitialCallback', () => {
     it('test when true', function() {
       const onPageChange = jest.fn();

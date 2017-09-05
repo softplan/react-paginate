@@ -7,13 +7,12 @@ const PageView = (props) => {
   const linkClassName = props.pageLinkClassName;
   const onClick = props.onClick;
   const href = props.href;
-  let ariaLabel = 'Page ' + props.page +
-    (props.extraAriaContext ? ' ' + props.extraAriaContext : '');
+  let ariaLabel = props.pageAriaLabel(props.page, props.extraAriaContext);
   let ariaCurrent = null;
 
   if (props.selected) {
     ariaCurrent = 'page';
-    ariaLabel = 'Page ' + props.page + ' is your current page';
+    ariaLabel = props.currentPageAriaLabel(props.page);
     if (typeof(cssClassName) !== 'undefined') {
       cssClassName = cssClassName + ' ' + props.activeClassName;
     } else {

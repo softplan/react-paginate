@@ -1,3 +1,15 @@
+## >= 4.4.0
+
+* Several properties have been added to extended accessibility support:
+** currentPageAriaLabel - defines the aria-label html property for the current page.
+*** default: (pageNumber) => 'Page ' + pageNumber + ' is your current page'.
+** pageAriaLabel - defines the aria-label html property for pages links, except for the current page.
+*** default: (pageNumber, extraAriaContext) =>  'Page ' + pageNumber + (extraAriaContext ? ' ' + extraAriaContext : '')
+** nextAriaLabel - defines the aria-label html property for the 'Next page' button.
+*** default: 'Next page'.
+** previousAriaLabel - defines the aria-label html property for the 'Previous page' button.
+*** Default: 'Previous page'.
+
 ## >= 4.3.0
 
 * The HTML attribute `aria-label` has been added.
