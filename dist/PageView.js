@@ -15,12 +15,12 @@ var PageView = function PageView(props) {
   var linkClassName = props.pageLinkClassName;
   var onClick = props.onClick;
   var href = props.href;
-  var ariaLabel = 'Page ' + props.page + (props.extraAriaContext ? ' ' + props.extraAriaContext : '');
+  var ariaLabel = props.pageAriaLabel(props.page, props.extraAriaContext);
   var ariaCurrent = null;
 
   if (props.selected) {
     ariaCurrent = 'page';
-    ariaLabel = 'Page ' + props.page + ' is your current page';
+    ariaLabel = props.currentPageAriaLabel(props.page);
     if (typeof cssClassName !== 'undefined') {
       cssClassName = cssClassName + ' ' + props.activeClassName;
     } else {

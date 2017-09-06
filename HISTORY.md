@@ -1,3 +1,7 @@
+## >= 4.5.0-softplan
+
+* Adds props to extend accessibility support
+
 ## >= 4.4.0
 
 * Several properties have been added to extended accessibility support:

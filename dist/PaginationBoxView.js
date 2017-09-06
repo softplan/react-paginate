@@ -181,6 +181,8 @@ var PaginationBoxView = function (_Component) {
         pageClassName: this.props.pageClassName,
         pageLinkClassName: this.props.pageLinkClassName,
         activeClassName: this.props.activeClassName,
+        pageAriaLabel: this.props.pageAriaLabel,
+        currentPageAriaLabel: this.props.currentPageAriaLabel,
         extraAriaContext: this.props.extraAriaContext,
         href: this.hrefBuilder(index),
         page: index + 1 });
@@ -206,7 +208,9 @@ var PaginationBoxView = function (_Component) {
               className: this.props.previousLinkClassName,
               href: this.hrefBuilder(this.state.selected - 1),
               tabIndex: '0',
-              onKeyPress: this.handlePreviousPage },
+              onKeyPress: this.handlePreviousPage,
+              'aria-label': this.props.previousAriaLabel
+            },
             this.props.previousLabel
           )
         ),
@@ -220,7 +224,9 @@ var PaginationBoxView = function (_Component) {
               className: this.props.nextLinkClassName,
               href: this.hrefBuilder(this.state.selected + 1),
               tabIndex: '0',
-              onKeyPress: this.handleNextPage },
+              onKeyPress: this.handleNextPage,
+              'aria-label': this.props.nextAriaLabel
+            },
             this.props.nextLabel
           )
         )
@@ -234,9 +240,13 @@ var PaginationBoxView = function (_Component) {
 PaginationBoxView.propTypes = {
   pageCount: _propTypes2.default.number.isRequired,
   pageRangeDisplayed: _propTypes2.default.number.isRequired,
+  pageAriaLabel: _propTypes2.default.func.isRequired,
+  currentPageAriaLabel: _propTypes2.default.func.isRequired,
   marginPagesDisplayed: _propTypes2.default.number.isRequired,
   previousLabel: _propTypes2.default.node,
+  previousAriaLabel: _propTypes2.default.string,
   nextLabel: _propTypes2.default.node,
+  nextAriaLabel: _propTypes2.default.string,
   breakLabel: _propTypes2.default.node,
   hrefBuilder: _propTypes2.default.func,
   onPageChange: _propTypes2.default.func,
@@ -258,10 +268,18 @@ PaginationBoxView.defaultProps = {
   pageCount: 10,
   pageRangeDisplayed: 2,
   marginPagesDisplayed: 3,
+  pageAriaLabel: function pageAriaLabel(pageNumber, extraAriaContext) {
+    return 'Page ' + pageNumber + (extraAriaContext ? ' ' + extraAriaContext : '');
+  },
+  currentPageAriaLabel: function currentPageAriaLabel(pageNumber) {
+    return 'Page ' + pageNumber + ' is your current page';
+  },
   activeClassName: "selected",
   previousClassName: "previous",
   nextClassName: "next",
+  previousAriaLabel: "Previous page",
   previousLabel: "Previous",
+  nextAriaLabel: "Next page",
   nextLabel: "Next",
   breakLabel: "...",
   disabledClassName: "disabled",
